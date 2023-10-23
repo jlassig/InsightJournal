@@ -13,8 +13,8 @@ when they think of writing in a journaling app.
 [Software Demo Video](https://youtu.be/nEbHcLqjNqM)
 
 # Development Environment
-Android Studio
-Kotlin
+* Android Studio
+* Kotlin
 
 
 # Useful Websites
