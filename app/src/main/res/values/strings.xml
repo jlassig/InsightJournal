@@ -1,0 +1,38 @@
+<resources>
+    <string name="app_name">InsightJournal</string>
+    <string name="textview">TextView</string>
+    <string name="what_is_your_mood">What is your mood?</string>
+    <string name="what_s_on_your_mind">What\'s on your mind?</string>
+    <string name="submit">Submit</string>
+    <string name="write_your_thoughts_here">Write your thoughts here.</string>
+    <string name="what_s_your_mood_today">What\'s your mood today?</string>
+    <string name="write_to_prompt">Write To Prompt</string>
+    <string name="display_entries">Display Entries</string>
+    <string name="write_entry">Write Entry</string>
+    <string name="insight_journal">Insight Journal</string>
+    <string name="last_6_months">Last 6 months</string>
+    <string name="most_frequent_mood">Most Frequent Mood</string>
+    <string name="associated_with">associated with</string>
+    <string name="quit">Quit</string>
+    <string name="get_insight">Get Insight</string>
+
+    <string-array name="mood_array">
+        <item>happy</item>
+        <item>sad</item>
+        <item>anxious</item>
+        <item>motivated</item>
+        <item>lazy</item>
+        <item>angry</item>
+
+    </string-array>
+
+
+    <string-array name="mood_items_array">
+        <item>work</item>
+        <item>school</item>
+        <item>family</item>
+        <item>friends</item>
+        <item>church</item>
+        <item>body</item>
+    </string-array>
+</resources>
