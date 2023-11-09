@@ -12,6 +12,7 @@ import android.widget.Spinner
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 
+
 class WriteEntryActivity : AppCompatActivity() {
 
     private val context = this
@@ -110,7 +111,6 @@ class WriteEntryActivity : AppCompatActivity() {
         val entryText = findViewById<EditText>(R.id.journalEntry)
         //turn it into a string
         val textString = entryText.text.toString()
-
 
         val journal = Journal(context)
         journal.writeEntry(selectedMood, selectedMoodItem, promptString, textString)

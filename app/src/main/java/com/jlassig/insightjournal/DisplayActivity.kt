@@ -1,19 +1,24 @@
 package com.jlassig.insightjournal
 
-
-import android.annotation.SuppressLint
+import android.content.Intent
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.util.Log
-
+import androidx.annotation.RequiresApi
+import com.google.firebase.firestore.FirebaseFirestore
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 
 class DisplayActivity: AppCompatActivity() {
 
+
     private val context = this
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_display)
@@ -28,44 +33,106 @@ class DisplayActivity: AppCompatActivity() {
 
     }
 
-    @SuppressLint("SetTextI18n")
-    private fun displayEntries(){
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun displayEntries() {
+       val journal = Journal(context)
+       journal.loadEntryList { entries, exception ->
 
-        //create a journal so we can use it to get the entries List
-        val journal = Journal(context)
-        val entriesList = journal.loadEntryList()
-        entriesList.sortByDescending { entry: Entry->
-            entry.entryDate }
+           val documentIds = journal.getDocumentIDS()
+
+           if (exception != null) {
+               Log.d("JULIA", "entriesList wasn't loaded: $exception")
+           } else {
+               val entriesDisplay: LinearLayout = findViewById(R.id.entriesDisplay)
+               entriesDisplay.removeAllViews()
+
+               if (entries != null) {
+
+                   val sortedEntries = entries.sortedByDescending {
+                       entry->
+                       LocalDate.parse(entry.entryDate, DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+                   }
 
 
-        //this is where we are going to put the entries so the user can see them
-        val entriesDisplay: LinearLayout = findViewById(R.id.entriesDisplay)
+                       for (entry in sortedEntries) {
+                           val textView = TextView(this)
+                           val entryText =
+                               "Date: ${entry.entryDate}\nPrompt: ${entry.promptInfo}\nEntry: ${entry.entryText}\n"
+                           textView.text = entryText
+                           val editButton = Button(this)
+                           editButton.text = "Edit"
+                           val deleteButton = Button(this)
+                           deleteButton.text = "Delete"
+                           val lineText = TextView(this)
+                           lineText.text = "-----------------------------------------------------------------------------------\n"
 
-        //clean out the entriesDisplay container before we fill it up
-        entriesDisplay.removeAllViews()
+                           entriesDisplay.addView(textView)
+                           entriesDisplay.addView(editButton)
+                           entriesDisplay.addView(deleteButton)
+                           entriesDisplay.addView(lineText)
 
-        /*
-        go through the entries list, create a string for each entry with Date, Prompt and Entry. then put
-        that string in a textView. then add that textView to the entriesDisplay in the activity_display.xml
-        */
-        if (entriesList.size != 0){
-            for (entry in entriesList) {
-                val textView = TextView(this)
-                val entryText =
-                    "Date: ${entry.entryDate}\nPrompt: ${entry.promptInfo}\nEntry: ${entry.entryText}\n-----------------------------------------------------------------------------------\n"
-                textView.text = entryText
-                entriesDisplay.addView(textView)
-            }
-        }else{
-            val textView = TextView(this)
-            textView.text = "There are no entries to display"
-            entriesDisplay.addView((textView))
 
+                           editButton.setOnClickListener {
+                               val index = getIndex(entry, entries)
+                               val documentID = documentIds[index]
+                               val intent= Intent(this@DisplayActivity, EditActivity::class.java)
+                               intent.putExtra("documentId", documentID)
+                               startActivity(intent)
+
+
+                           }
+                           deleteButton.setOnClickListener{
+                               val index = getIndex(entry, entries)
+                               val documentID = documentIds[index]
+
+                               val db = FirebaseFirestore.getInstance()
+                               val entriesCollection = db.collection("entries")
+
+                               entriesCollection.document(documentID)
+                                   .delete()
+                                   .addOnSuccessListener {
+                                       Log.d("JULIA", "Document deleted!")
+                                       onResume()
+
+                                   }
+                                   .addOnFailureListener{
+                                       e->
+                                       Log.d("JULIA", "Error deleting document $e")
+                                   }
+
+                           }
+
+                       }
+                   } else {
+                       val textView = TextView(this)
+                       textView.text = "There are no entries to display"
+                       entriesDisplay.addView((textView))
+
+
+                   }
+               }
+           }
+
+
+
+
+   }
+
+    private fun getIndex(entry: Entry, entriesList: List<Entry>?): Int {
+        if (entriesList != null) {
+            return entriesList.indexOf(entry)
         }
-
-
+        return -1
 
     }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun onResume(){
+        super.onResume()
+        displayEntries()
+    }
+
+
 
 
 

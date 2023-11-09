@@ -15,22 +15,27 @@ import java.time.LocalDate
 class MoodTrackerActivity : AppCompatActivity() {
     private val context = this
 
-    //private var entryList: List<Entry>? = null
-
-
-
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mood_tracker)
 
-
-        Log.d("JULIA", "Inside OnCreate for MoodTracker")
-
-
         val journal = Journal(context)
-        val entryList = journal.loadEntryList()
-        getTheInfo(entryList)
+       journal.loadEntryList { entries, exception ->
+
+           if (exception != null) {
+               Log.d("JULIA", "entriesList wasn't loaded: $exception")
+           } else {
+               if (entries != null) {
+                   if (entries.isNotEmpty()) {
+                       getTheInfo(entries)
+
+                   } else {
+                       Log.d("JULIA", "there are no entries to display")
+                   }
+               }
+           }
+       }
 
         //so the user can go back to home screen after seeing the displayed entries.
         val homeButton = findViewById<Button>(R.id.homeButton)
@@ -68,7 +73,8 @@ class MoodTrackerActivity : AppCompatActivity() {
         val targetMonth = getTargetMonth(numOfMonths)
 
         for (entry in entryList) {
-            val entryDate = entry.entryDate
+            val dateString = entry.entryDate
+            val entryDate = LocalDate.parse(dateString)
             val entryMonth = entryDate.monthValue
             if (entryMonth == targetMonth && entry.mood != "") {
                 newEntryList.add(entry)

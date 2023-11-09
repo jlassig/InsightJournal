@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.jlassig.insightjournal">
 
     <application
         android:allowBackup="true"
@@ -13,6 +14,15 @@
         android:theme="@style/Theme.InsightJournal"
         tools:targetApi="31">
         <activity
+            android:name=".EditActivity"
+            android:exported="false" />
+        <activity
+            android:name=".NewUserActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MenuActivity"
+            android:exported="false" />
+        <activity
             android:name=".MoodTrackerActivity"
             android:exported="false" />
         <activity
@@ -24,7 +34,7 @@
         <activity
             android:name=".WriteEntryActivity"
             android:exported="false" />
-          <activity
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>

@@ -1,15 +1,13 @@
 package com.jlassig.insightjournal
 
+import com.google.firebase.firestore.PropertyName
 
-import kotlinx.serialization.Serializable
-import java.time.LocalDate
-//this class holds the data everytime an Entry gets created or loaded from the Json to display
-@Serializable
-data class Entry (
-    @Serializable(with = LocalDateSerializer::class)
-    val entryDate: LocalDate,
-    val mood: String,
-    val moodItem: String,
-    val promptInfo: String,
-    val entryText: String?
-)
+data class Entry(
+    @PropertyName("entryDate") val entryDate: String?,
+    @PropertyName("mood") val mood: String?,
+    @PropertyName("moodItem") val moodItem: String?,
+    @PropertyName("promptInfo") val promptInfo: String?,
+    @PropertyName("entryText") var entryText: String?,
+    @PropertyName("userId") val userId: String?)
+{ constructor() : this(null, null, null, null, null, null) }
+

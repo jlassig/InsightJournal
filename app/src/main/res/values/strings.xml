@@ -15,6 +15,20 @@
     <string name="associated_with">associated with</string>
     <string name="quit">Quit</string>
     <string name="get_insight">Get Insight</string>
+    <string name="email">Email: </string>
+    <string name="email_email_com">email@email.com</string>
+    <string name="password">Password</string>
+    <string name="create_new_account">Create new account</string>
+    <string name="my_password">my_password</string>
+    <string name="home">Home</string>
+    <string name="update">Update</string>
+    <string name="go_back">Go Back</string>
+    <string name="text">Text</string>
+    <string name="hi_guys">Hi guys</string>
+    <string name="create_new_user">Create New User</string>
+    <string name="login">Login</string>
+    <string name="create_account">Create account</string>
+    <string name="new_to_insight_journal">New to Insight Journal?</string>
 
     <string-array name="mood_array">
         <item>happy</item>
