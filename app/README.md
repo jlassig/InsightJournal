@@ -5,7 +5,7 @@ at the bottom of this Readme). Here I've added a Firestore database. This allows
 user writes are saved to their individual profile. The user can add an entry, view their entries, update an entry, 
 and delete an entry. When the entries are displayed, they are queried by the user ID and then sorted in descending order by date. 
 
-[Software Demo Video](https://youtu.be/nEbHcLqjNqM)
+[Software Demo Video](https://youtu.be/89pxOFBTCCo)
 
 # Cloud Database
 * Google Firebase- Firestore Database
